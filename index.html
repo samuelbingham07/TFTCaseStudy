@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TFT as a Live Service: A Product Teardown — Samuel Bingham</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <nav class="sidebar" id="sidebar">
+  <nav class="sidebar">
     <div class="sidebar-inner">
       <div class="sidebar-brand">Samuel Bingham</div>
       <ul class="sidebar-nav">
@@ -31,12 +34,13 @@
   <main class="content">
 
     <header class="hero">
-      <div class="hero-label">Product Teardown</div>
       <h1 class="hero-title">TFT as a Live Service</h1>
       <div class="hero-meta">
-        <span class="hero-author">Samuel Bingham</span>
-        <span class="hero-divider">·</span>
-        <span class="hero-date">July 2026</span>
+        <span>Samuel Bingham</span>
+        <span class="sep">·</span>
+        <span>Product Teardown</span>
+        <span class="sep">·</span>
+        <span>July 2026</span>
       </div>
       <p class="hero-tagline">
         A product analysis of Teamfight Tactics examining retention mechanics, competitive positioning, and the highest-leverage opportunities for the next growth phase.
@@ -48,12 +52,7 @@
       <p>Teamfight Tactics is an auto-battler developed and published by Riot Games, launched in 2019 as a game mode within the League of Legends client before expanding into a standalone mobile application. It is one of the most-played auto-battlers in the world, competing primarily with Hearthstone Battlegrounds and a now-dormant Underlords.</p>
       <p>The core gameplay loop is straightforward: eight players draft champions from a shared pool, position them on a hexagonal board, and watch automated combat play out in rounds. Players manage gold income, experience investment, and item composition simultaneously across a match that typically runs thirty to forty minutes. The decision space is deep — when to roll for units, when to save gold for compound interest, how to pivot when a composition is contested — but the interface is approachable enough that a new player can complete a game within the first session.</p>
       <p>TFT operates on a <strong>set rotation model</strong>, replacing the majority of champions, traits, and mechanics every three to four months. Each set introduces a thematic universe and new mechanical systems on top of the core loop, functioning similarly to a seasonal content model in other live service games. The current release is Set 13, though by the time you read this that number has likely changed.</p>
-
-      <div class="callout">
-        <div class="callout-label">Monetization Model</div>
-        <p>Monetization is entirely cosmetic and follows two tracks: a battle pass that rewards engagement over a set's lifespan with cosmetic unlocks, and a direct purchase storefront selling arena skins, little legend companions, and boom effects. <strong>There is no pay-to-win element.</strong> Champions, traits, and gameplay content are fully accessible to all players regardless of spending.</p>
-      </div>
-
+      <p class="aside">Monetization is entirely cosmetic: a battle pass rewarding engagement over a set's lifespan, and a direct storefront selling arena skins, little legend companions, and boom effects. <strong>There is no pay-to-win element.</strong> Champions, traits, and gameplay content are fully accessible to all players regardless of spending.</p>
       <p>The player base segments meaningfully by engagement depth. Casual players open the client a few times a week for entertainment with no ranked investment. Ranked climbers care deeply about patch balance and competitive integrity. High-elo and Challenger players form a small but disproportionately influential community that shapes public perception of the game through streaming and content creation.</p>
     </section>
 
@@ -62,14 +61,14 @@
       <p>TFT entered a market that Riot's own Teamfight Tactics effectively created in the western market, following Dota Auto Chess, the Warcraft III custom map that originated the genre. Two direct competitors define the current landscape.</p>
 
       <div class="competitor-grid">
-        <div class="competitor-card">
-          <div class="competitor-name">Hearthstone Battlegrounds</div>
-          <div class="competitor-year">Launched 2019 · Active</div>
+        <div class="competitor">
+          <h3 class="competitor-name">Hearthstone Battlegrounds</h3>
+          <p class="competitor-status">Launched 2019 · Active</p>
           <p>Maintained a healthy player base on the strength of Blizzard's existing Hearthstone audience and IP. Key differentiator: <strong>hero powers</strong> — asymmetric starting abilities that give each game a fundamentally different strategic frame from the first decision. This creates high variance but also high replayability. Battlegrounds experimented with a paid tier for earlier hero access, which generated significant community backlash.</p>
         </div>
-        <div class="competitor-card competitor-card--dead">
-          <div class="competitor-name">Underlords</div>
-          <div class="competitor-year">Launched 2019 · Dormant 2021</div>
+        <div class="competitor competitor--dead">
+          <h3 class="competitor-name">Underlords</h3>
+          <p class="competitor-status">Launched 2019 · Dormant 2021</p>
           <p>Valve shipped a solid core game and then went largely silent on updates for extended periods, allowing player interest to decay without the live service investment necessary to sustain an auto-battler. The lesson: <strong>the genre does not have a strong floor of passive retention.</strong> Players who stop receiving new content leave, and they do not come back for the next set at the same rate as players who stayed engaged throughout.</p>
         </div>
       </div>
@@ -102,22 +101,14 @@
           <span class="opp-number">01</span>
           <h3 class="opp-title">Structured Improvement Tooling for Mid-Ranked Players</h3>
         </div>
-
-        <div class="opp-problem">
-          <div class="opp-problem-label">The Problem</div>
-          <p>Players in the Platinum through Diamond bracket churn at a higher rate than their engagement level would predict because they cannot identify why they are losing or what to work on. The current post-game screen shows placement and damage dealt but does not surface decision-level insight.</p>
-        </div>
-
+        <p class="problem-lead">Players in the Platinum through Diamond bracket churn at a higher rate than their engagement level would predict because they cannot identify why they are losing or what to work on. The current post-game screen shows placement and damage dealt but does not surface decision-level insight.</p>
         <p>The opportunity is a post-game analysis layer that uses match data to identify specific decision patterns correlated with worse outcomes for that player. Not a generic tip system, but something that can say: <em>this player consistently rolls down too early</em>, or <em>this player's positioning in the late game costs them an average of one placement per match</em>. The data to power this already exists in Riot's systems. The design challenge is surfacing it in a way that feels like insight rather than criticism, and doing so at a moment when the player is still engaged enough to act on it.</p>
-
-        <div class="metrics">
-          <div class="metrics-label">Success Metrics</div>
-          <ul class="metrics-list">
-            <li>Mid-ranked player retention week over week</li>
-            <li>Average session count per player in the Platinum–Diamond bracket</li>
-            <li>Self-reported satisfaction in post-game surveys</li>
-          </ul>
-        </div>
+        <p class="metrics-heading">Success metrics</p>
+        <ul class="metrics-list">
+          <li>Mid-ranked player retention week over week</li>
+          <li>Average session count per player in the Platinum–Diamond bracket</li>
+          <li>Self-reported satisfaction in post-game surveys</li>
+        </ul>
       </div>
 
       <div id="opp-2" class="opportunity">
@@ -125,21 +116,13 @@
           <span class="opp-number">02</span>
           <h3 class="opp-title">Set Transition Onboarding for Returning Players</h3>
         </div>
-
-        <div class="opp-problem">
-          <div class="opp-problem-label">The Problem</div>
-          <p>Set transitions are intended as re-engagement hooks but function as churn events for a meaningful segment of the player base because the cost of relearning is higher than the appeal of new content for players who were already frustrated.</p>
-        </div>
-
+        <p class="problem-lead">Set transitions are intended as re-engagement hooks but function as churn events for a meaningful segment of the player base because the cost of relearning is higher than the appeal of new content for players who were already frustrated.</p>
         <p>The opportunity is a contextual onboarding experience that activates specifically for players returning after a set transition, calibrated to their previous playstyle. A player who mained reroll compositions in the previous set would receive a tutorial pathway oriented around which new traits support a similar strategic approach, rather than a generic introduction that treats them as a new player. This reduces the activation energy required to engage with the new set without removing the discovery element that new sets are designed to create.</p>
-
-        <div class="metrics">
-          <div class="metrics-label">Success Metrics</div>
-          <ul class="metrics-list">
-            <li>Day-7 retention for players returning at set launch</li>
-            <li>Average placement improvement over first 10 games of a new set for returning vs. new players</li>
-          </ul>
-        </div>
+        <p class="metrics-heading">Success metrics</p>
+        <ul class="metrics-list">
+          <li>Day-7 retention for players returning at set launch</li>
+          <li>Average placement improvement over first 10 games of a new set for returning vs. new players</li>
+        </ul>
       </div>
 
       <div id="opp-3" class="opportunity">
@@ -147,22 +130,14 @@
           <span class="opp-number">03</span>
           <h3 class="opp-title">Creator Performance Dashboard</h3>
         </div>
-
-        <div class="opp-problem">
-          <div class="opp-problem-label">The Problem</div>
-          <p>TFT's high-elo and Challenger community generates a disproportionate share of the game's organic content and drives perception among the broader player base, but Riot has limited tooling specifically designed to support creator workflows.</p>
-        </div>
-
+        <p class="problem-lead">TFT's high-elo and Challenger community generates a disproportionate share of the game's organic content and drives perception among the broader player base, but Riot has limited tooling specifically designed to support creator workflows.</p>
         <p>The opportunity is a performance data dashboard available to verified content creators and high-elo players that surfaces richer match data than the standard post-game screen: composition win rates by lobby MMR, positioning heat maps, and item build frequency among top-ranked players. This gives creators compelling data to build content around, increases the quality and specificity of the educational content in the ecosystem, and deepens the investment of the players Riot most needs to retain for competitive health.</p>
-
-        <div class="metrics">
-          <div class="metrics-label">Success Metrics</div>
-          <ul class="metrics-list">
-            <li>Content output volume from verified creators</li>
-            <li>Stream viewership trends for TFT content</li>
-            <li>Challenger and Grandmaster retention rate</li>
-          </ul>
-        </div>
+        <p class="metrics-heading">Success metrics</p>
+        <ul class="metrics-list">
+          <li>Content output volume from verified creators</li>
+          <li>Stream viewership trends for TFT content</li>
+          <li>Challenger and Grandmaster retention rate</li>
+        </ul>
       </div>
     </section>
 
@@ -170,32 +145,36 @@
       <h2 class="section-heading">Prioritization</h2>
       <p>Given Riot's current priorities of growing TFT's player base while retaining the competitive core, the mid-ranked improvement tooling is the highest-leverage investment of the three. The reasoning is straightforward: the Platinum through Diamond bracket represents the largest player volume in the ranked ecosystem, the churn problem in that bracket is well-documented by the community even if the internal data isn't public, and the solution builds on infrastructure Riot already has rather than requiring new data collection.</p>
 
-      <div class="priority-table">
-        <div class="priority-row priority-row--header">
-          <div>Opportunity</div>
-          <div>Player Reach</div>
-          <div>Build Complexity</div>
-          <div>Priority</div>
-        </div>
-        <div class="priority-row priority-row--top">
-          <div><strong>Mid-Ranked Improvement Tooling</strong></div>
-          <div>High — largest ranked bracket by volume</div>
-          <div>Medium — leverages existing data infrastructure</div>
-          <div class="priority-badge priority-badge--1">P1</div>
-        </div>
-        <div class="priority-row">
-          <div><strong>Set Transition Onboarding</strong></div>
-          <div>High — all returning players at set launch</div>
-          <div>High — recurring cost per set, requires playstyle inference</div>
-          <div class="priority-badge priority-badge--2">P2</div>
-        </div>
-        <div class="priority-row">
-          <div><strong>Creator Dashboard</strong></div>
-          <div>Low — small absolute user count</div>
-          <div>Medium — new data surface and verification system</div>
-          <div class="priority-badge priority-badge--3">P3</div>
-        </div>
-      </div>
+      <table class="priority-table">
+        <thead>
+          <tr>
+            <th>Opportunity</th>
+            <th>Player Reach</th>
+            <th>Build Complexity</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="priority-top">
+            <td><strong>Mid-Ranked Improvement Tooling</strong></td>
+            <td>High — largest ranked bracket by volume</td>
+            <td>Medium — leverages existing data infrastructure</td>
+            <td class="priority-cell">P1</td>
+          </tr>
+          <tr>
+            <td><strong>Set Transition Onboarding</strong></td>
+            <td>High — all returning players at set launch</td>
+            <td>High — recurring cost per set</td>
+            <td class="priority-cell">P2</td>
+          </tr>
+          <tr>
+            <td><strong>Creator Dashboard</strong></td>
+            <td>Low — small absolute user count</td>
+            <td>Medium — new data surface and verification system</td>
+            <td class="priority-cell priority-cell--low">P3</td>
+          </tr>
+        </tbody>
+      </table>
 
       <p>The creator dashboard is high-value but serves a small absolute number of players. The set transition onboarding has broad reach but is a recurring development cost tied to every set launch. The mid-ranked tooling also has a compounding effect the other two don't: players who improve stay engaged longer, move up the ladder, and become the high-elo players who anchor the competitive community in the next cycle. Investing in that segment is investing in the long-term health of the ranked ecosystem rather than patching a specific drop-off point.</p>
     </section>
@@ -215,8 +194,7 @@
   </main>
 
   <script>
-    // Highlight active nav link on scroll
-    const sections = document.querySelectorAll('section[id], header[id]');
+    const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
     const observer = new IntersectionObserver((entries) => {
