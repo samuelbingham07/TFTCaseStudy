@@ -15,6 +15,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://samuelbingham07.github.io/TFTCaseStudy/thumbnail.jpg" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -69,6 +70,11 @@
     <section id="retention" class="section">
       <h2 class="section-heading">Retention &amp; Engagement Analysis</h2>
       <p>Live service games live and die on retention. When I look at TFT's retention profile, I see a few structural patterns--some that Riot has handled well, and a couple that I think are quietly doing more damage than the community discourse reflects.</p>
+
+      <div class="chart-wrap">
+        <canvas id="tft-viewers-chart"></canvas>
+      </div>
+      <p class="chart-caption">Average monthly Twitch viewership for TFT, Jun 2019–Jun 2026. Dashed lines mark major set launches; ★ marks Set 12, when I started playing. Source: SullyGnome.</p>
 
       <h3 class="subsection-heading">Battle Pass Engagement Floor</h3>
       <p>The battle pass is doing its job. Players who buy it are committing to a session cadence that passive players aren't--the mission system time-gates rewards in a way that nudges you back weekly. It's standard live service design but it works. The problem I notice is the <strong>mid-set trough</strong>: those middle weeks when the initial novelty has worn off and the next set announcement is still weeks away. The missions start to feel like homework. That's a predictable drop-off window that I'd want to design around explicitly rather than accept as inevitable.</p>
@@ -196,6 +202,126 @@
     </footer>
 
   </main>
+
+  <script>
+    (function () {
+      const labels = ["June 2019","July 2019","August 2019","September 2019","October 2019","November 2019","December 2019","January 2020","February 2020","March 2020","April 2020","May 2020","June 2020","July 2020","August 2020","September 2020","October 2020","November 2020","December 2020","January 2021","February 2021","March 2021","April 2021","May 2021","June 2021","July 2021","August 2021","September 2021","October 2021","November 2021","December 2021","January 2022","February 2022","March 2022","April 2022","May 2022","June 2022","July 2022","August 2022","September 2022","October 2022","November 2022","December 2022","January 2023","February 2023","March 2023","April 2023","May 2023","June 2023","July 2023","August 2023","September 2023","October 2023","November 2023","December 2023","January 2024","February 2024","March 2024","April 2024","May 2024","June 2024","July 2024","August 2024","September 2024","October 2024","November 2024","December 2024","January 2025","February 2025","March 2025","April 2025","May 2025","June 2025","July 2025","August 2025","September 2025","October 2025","November 2025","December 2025","January 2026","February 2026","March 2026","April 2026","May 2026","June 2026"];
+      const viewers = [40685,91973,39507,21733,16788,13902,15093,12084,8093,18372,31718,28857,19448,14899,12025,26330,22603,18496,13921,16736,20974,22664,20871,27824,16745,11840,14854,12606,12647,51905,48691,34738,21715,21912,18511,16915,45307,40642,27742,30224,20833,20052,32256,29673,18339,17722,21669,16326,40883,55197,36832,25783,25096,31716,32817,25093,15350,19836,25939,17377,10839,10243,27019,19956,10254,21380,26093,25067,21793,15613,29444,20022,13963,11097,23750,15789,8895,9822,33893,29778,16846,9278,15335,11376,7061];
+
+      const setAnnotations = [
+        { index: 0,  label: "Set 1" },
+        { index: 29, label: "Set 6" },
+        { index: 36, label: "Set 7" },
+        { index: 49, label: "Set 9" },
+        { index: 53, label: "Set 10" },
+        { index: 62, label: "Set 12 ★" },
+        { index: 78, label: "Set 16" },
+      ];
+
+      const setLinesPlugin = {
+        id: 'setLines',
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea, scales } = chart;
+          setAnnotations.forEach(({ index, label }) => {
+            const x = scales.x.getPixelForValue(index);
+            const isHighlight = label.includes('★');
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash([3, 5]);
+            ctx.strokeStyle = isHighlight ? 'rgba(200,155,60,0.7)' : 'rgba(200,155,60,0.3)';
+            ctx.lineWidth = isHighlight ? 1.5 : 1;
+            ctx.moveTo(x, chartArea.top + 18);
+            ctx.lineTo(x, chartArea.bottom);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.font = (isHighlight ? '600' : '500') + ' 10px "DM Sans", sans-serif';
+            ctx.fillStyle = isHighlight ? 'rgba(200,155,60,0.95)' : 'rgba(168,152,120,0.72)';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x, chartArea.top + 13);
+            ctx.restore();
+          });
+        }
+      };
+
+      const el = document.getElementById('tft-viewers-chart');
+      if (!el) return;
+
+      new Chart(el.getContext('2d'), {
+        type: 'line',
+        plugins: [setLinesPlugin],
+        data: {
+          labels,
+          datasets: [{
+            data: viewers,
+            borderColor: '#C89B3C',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#C89B3C',
+            tension: 0.3,
+            fill: true,
+            backgroundColor: function (context) {
+              const { chart } = context;
+              const { ctx, chartArea } = chart;
+              if (!chartArea) return 'rgba(200,155,60,0)';
+              const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+              g.addColorStop(0, 'rgba(200,155,60,0.18)');
+              g.addColorStop(1, 'rgba(200,155,60,0.01)');
+              return g;
+            }
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1a1410',
+              borderColor: '#2e2215',
+              borderWidth: 1,
+              titleColor: '#F0F0F4',
+              bodyColor: '#a89878',
+              padding: 10,
+              titleFont: { family: '"DM Sans", sans-serif', size: 12, weight: '600' },
+              bodyFont: { family: '"DM Sans", sans-serif', size: 12 },
+              callbacks: {
+                label: (item) => '  Avg. viewers: ' + item.raw.toLocaleString()
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#a89878',
+                font: { family: '"DM Sans", sans-serif', size: 10 },
+                maxRotation: 0,
+                callback: function (val, index) {
+                  const lbl = labels[index];
+                  if (!lbl) return '';
+                  const parts = lbl.split(' ');
+                  return (parts[0] === 'January' || index === 0) ? parts[1] : '';
+                }
+              },
+              grid: { color: 'rgba(46,34,21,0.9)' },
+              border: { color: '#2e2215' }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: '#a89878',
+                font: { family: '"DM Sans", sans-serif', size: 10 },
+                callback: (v) => v >= 1000 ? Math.round(v / 1000) + 'k' : v
+              },
+              grid: { color: 'rgba(46,34,21,0.9)' },
+              border: { color: '#2e2215' }
+            }
+          }
+        }
+      });
+    })();
+  </script>
 
   <script>
     const sections = document.querySelectorAll('section[id]');
