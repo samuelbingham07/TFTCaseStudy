@@ -36,6 +36,7 @@
         </li>
         <li><a href="#prioritization" class="nav-link">Prioritization</a></li>
         <li><a href="#wrong" class="nav-link">What I'd Get Wrong</a></li>
+        <li><a href="#meta" class="nav-link">Meta-Dependency</a></li>
       </ul>
     </div>
   </nav>
@@ -200,6 +201,17 @@
         The strongest counterargument to prioritizing the improvement tooling is that TFT's casual audience, which is almost certainly the majority of players by session volume even if not by community visibility, does not want to feel evaluated when they open the game.
       </blockquote>
       <p>A post-game analysis system that surfaces mistakes risks making a session that ended in seventh place feel worse than it already does. The design response to this concern is to make the tooling opt-in rather than default, surface it as "here's what the top players did differently" rather than "here's what you did wrong," and gate the more detailed analysis behind an explicit request from the player rather than presenting it automatically. Whether that's enough to avoid the negative experience for casual players is a real question that user research would need to answer before building.</p>
+    </section>
+
+    <section id="meta" class="section">
+      <h2 class="section-heading">An Open Question: Meta-Dependency and Competitive Fairness</h2>
+      <p>TFT's competitive ecosystem has produced a network of external sites--MetaTFT, TFT.gg, Tactics.tools--that publish optimal compositions, exact item combinations, and positioning guides updated after every patch. A player running a board copied directly from MetaTFT is playing a substantially solved version of the game. The question I keep coming back to is: how much does that actually matter in terms of placement, and does the gap it creates between meta-users and non-meta-users constitute a design problem or just a natural feature of competitive gaming?</p>
+
+      <p>This is something Riot could measure precisely. Match data already contains enough signal to infer meta-dependency: players who consistently pilot the same two or three top compositions, hit near-optimal item combinations every game, and position according to established templates are identifiable. A comparison of placement distributions between high-dependency players and adaptive players at the same MMR would tell you exactly how large the advantage is. My intuition is that it's meaningful--not decisive, but enough to matter at the rank thresholds where games are decided by a placement or two. I'd want to see the data before asserting it confidently.</p>
+
+      <p>The case for the status quo is defensible. Knowledge of optimal play has always been part of competitive gaming--LoL players watch pro streams, chess players study opening theory. Meta knowledge is a form of skill, and the players who seek it out are the engaged ones. Riot's own Game Analysis Team blog acknowledges that high-elo players operate with access to external data, and the design implicitly accepts this. The meta ecosystem also drives retention: content creators build tier lists, communities form around patch discussion, players have a reason to follow the game between sessions.</p>
+
+      <p>But I find the separation question genuinely interesting and I don't think it has a clean answer. Could Riot create a "meta-blind" mode that restricts composition information? Probably not without it feeling paternalistic and being easy to circumvent--players would just check their phones. Could you matchmake by meta-dependency as a proxy for game literacy rather than raw MMR? Maybe, but you'd be punishing the behavior you most want to encourage. The more I think about it, the more I believe the status quo is probably the right call--but that the real problem isn't fairness, it's transparency. Players who keep losing to compositions they've never seen, in ways they can't diagnose, don't think "I should use MetaTFT." They think "I'm not good enough" and close the client. The answer isn't to restrict external tools. It's to surface enough information in-client that the meta gap doesn't feel like an invisible wall--which loops back directly to the post-game analysis tooling argument.</p>
     </section>
 
     <section class="section sources-section">
