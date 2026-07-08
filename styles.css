@@ -186,6 +186,25 @@ em { font-style: italic; }
   line-height: 1.7;
 }
 
+/* ── Links ── */
+
+.brand-link {
+  color: var(--gold);
+  text-decoration: none;
+  transition: opacity 0.12s;
+}
+
+.brand-link:hover { opacity: 0.75; }
+
+.footer-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.12s;
+}
+
+.footer-link:hover { border-bottom-color: var(--text-muted); }
+
 /* ── Competitors ── */
 
 .competitor-grid {
